@@ -2,6 +2,10 @@
 name = "track_album_number_genius"
 version = "0.1.0"
 edition = "2021"
+license-file = "LICENSE"
+description = "Fetches track's number (starting from zero) in album by album's URL"
+repository = "https://github.com/dinaraparanid/genius_track_number_in_album"
+readme = "README.md"
 
 [dependencies]
 reqwest = { version = "0.11.7", features = ["blocking"] }
