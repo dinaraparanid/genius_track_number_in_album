@@ -11,7 +11,7 @@ fn get_track_number_from_doc(doc: &str, track_title: &str) -> Option<usize> {
             .select(&Selector::parse("div[class=chart_row-content]").unwrap())
             .fold(String::new(), |acc, e| {
                 format!(
-                    "{}{}\n",
+                    "{}{}__ЫЫЫЫЫ__",
                     acc,
                     e.text()
                         .fold(String::new(), |acc, x| format!("{}{}", acc, x))
@@ -22,8 +22,8 @@ fn get_track_number_from_doc(doc: &str, track_title: &str) -> Option<usize> {
             .as_bytes(),
         1000,
     )
-    .split("\n")
-    .position(|x| x.contains(track_title))
+    .split("__ЫЫЫЫЫ__")
+    .position(|x| x.to_lowercase().contains(track_title))
 }
 
 /// Gets track's number (starting from zero) in album by album's URL asynchronously
@@ -56,7 +56,7 @@ pub async fn get_track_number_in_album(album_url: &str, track_title: &str) -> Op
         .await
         .unwrap()
         .as_str(),
-        track_title,
+        track_title.to_lowercase().as_str(),
     )
 }
 
@@ -87,6 +87,6 @@ pub fn get_track_number_in_album_blocking(url: &str, track_title: &str) -> Optio
         .text()
         .unwrap()
         .as_str(),
-        track_title,
+        track_title.to_lowercase().as_str(),
     )
 }

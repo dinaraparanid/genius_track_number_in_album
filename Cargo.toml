@@ -1,6 +1,6 @@
 [package]
 name = "track_album_number_genius"
-version = "0.1.0"
+version = "1.0.0"
 edition = "2021"
 license-file = "LICENSE"
 description = "Fetches track's number (starting from zero) in album by album's URL"
