@@ -6,6 +6,8 @@ use scraper::{Html, Selector};
 
 #[inline]
 fn get_track_number_from_doc(doc: &str, track_title: &str) -> Option<usize> {
+    println!("{}", track_title);
+
     html2text::from_read(
         Html::parse_document(doc)
             .select(&Selector::parse("div[class=chart_row-content]").unwrap())
@@ -23,7 +25,11 @@ fn get_track_number_from_doc(doc: &str, track_title: &str) -> Option<usize> {
         1000,
     )
     .split("__ЫЫЫЫЫ__")
-    .position(|x| x.to_lowercase().contains(track_title))
+    .map(|x| x.trim().to_lowercase())
+    .position(|x| {
+        println!("{} != {}", x, track_title);
+        x.contains(track_title) || x == track_title
+    })
 }
 
 /// Gets track's number (starting from zero) in album by album's URL asynchronously
@@ -56,7 +62,11 @@ pub async fn get_track_number_in_album(album_url: &str, track_title: &str) -> Op
         .await
         .unwrap()
         .as_str(),
-        track_title.to_lowercase().as_str(),
+        track_title
+            .to_lowercase()
+            .replace('’', "'")
+            .replace('…', "...")
+            .as_str(),
     )
 }
 
@@ -87,6 +97,10 @@ pub fn get_track_number_in_album_blocking(url: &str, track_title: &str) -> Optio
         .text()
         .unwrap()
         .as_str(),
-        track_title.to_lowercase().as_str(),
+        track_title
+            .to_lowercase()
+            .replace('’', "'")
+            .replace('…', "...")
+            .as_str(),
     )
 }
