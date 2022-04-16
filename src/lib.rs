@@ -6,8 +6,6 @@ use scraper::{Html, Selector};
 
 #[inline]
 fn get_track_number_from_doc(doc: &str, track_title: &str) -> Option<usize> {
-    println!("{}", track_title);
-
     html2text::from_read(
         Html::parse_document(doc)
             .select(&Selector::parse("div[class=chart_row-content]").unwrap())
@@ -26,10 +24,7 @@ fn get_track_number_from_doc(doc: &str, track_title: &str) -> Option<usize> {
     )
     .split("__ЫЫЫЫЫ__")
     .map(|x| x.trim().to_lowercase())
-    .position(|x| {
-        println!("{} != {}", x, track_title);
-        x.contains(track_title) || x == track_title
-    })
+    .position(|x| x.contains(track_title) || x == track_title)
 }
 
 /// Gets track's number (starting from zero) in album by album's URL asynchronously

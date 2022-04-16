@@ -12,9 +12,9 @@ async fn main() {
         "{}", 
         get_track_number_in_album(
             "https://genius.com/albums/The-weeknd/After-hours", 
-            "Alone Again"
+            "Too Late"
         ).await, 
-        Some(0)
+        Some(1)
     ) 
 }
 ```
